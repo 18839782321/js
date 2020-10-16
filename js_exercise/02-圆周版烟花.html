@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+ #container{
+     width: 80%;
+     height: 600px;
+     border:1px red solid;
+     position:relative;
+     margin:20px auto;
+     cursor:pointer;
+     background:black;
+ }
+ .fire{
+     background:red;
+     position: absolute;
+     /* 设置bottom时,top获取为最大值,减去鼠标点击位置 */
+     bottom: 0px;
+     width: 6px;
+     height: 6px;
+    
+ }
+ .small-fire{
+			width: 10px;
+			height:10px;
+			position: absolute;
+			border-radius: 50%;
+		}
+</style>
+<body>
+    <div id="container">
+
+    </div>
+    <script>
+        // 1 获取节点,给container绑定点击事件
+          var contObj = document.querySelector('#container');
+       
+              contObj.onclick = function(event){
+                 var e = window.event || event;
+            
+                  // 2 获取鼠标点击的位置
+                  var mousePos = {
+                      left:e.offsetX,
+                      top:e.offsetY
+                  }
+                  new Fire(mousePos)
+              }
+
+         
+        /********3 大烟花的创建**********/
+       
+        function Fire(mousePos){
+            this.mousePos = mousePos;
+            // 3.1 创建div
+            var newFire = document.createElement('div');
+
+            // 3.2 给div设置初始的left,class,背景
+             newFire.className = 'fire'
+             newFire.style.left = this.mousePos.left+'px';
+             newFire.style.background = this.getColor();
+            //3.3 将div追加到container
+             contObj.appendChild(newFire);
+            // 3.4 调用运动方法
+            var that = this;
+            this.startMove(newFire,{top:this.mousePos.top},function(){
+                console.log('我,我,心态炸了');
+                newFire.remove();
+                that.smallFire();
+            })
+        }
+     
+          /******4 小烟花的实现*****/
+          Fire.prototype.smallFire = function(){
+          // 4.1 使用for创建指定数量的烟花
+           var fireNum = 50;
+           // 随机半径
+           var r = this.getRan(100,200)
+           for(var i=0;i<fireNum;i++){
+               var newSmallFire = document.createElement('div');
+             //4.2 给初始位置,class,背景
+               newSmallFire.style.top = this.mousePos.top+'px';
+               newSmallFire.style.left = this.mousePos.left+'px';
+               newSmallFire.className = 'small-fire';
+               newSmallFire.style.background = this.getColor();
+                //4.3 追加到countObj
+                 contObj.appendChild(newSmallFire)
+                // 4.4 随机出烟花的轨迹,top left
+                var top = parseInt(Math.sin(Math.PI/180 * 360/fireNum * i) * r)+this.mousePos.top;
+                var left = parseInt(Math.cos(Math.PI/180 * 360/fireNum * i) * r)+this.mousePos.left;
+
+               //4.5 调用运动函数
+               // 后一个div创建出来时,前一个div还没有达到指定位置,定时器不能被清除
+               // 使用自调用函数,创建一个块级作用域,保证每一个小烟花之间互不干扰
+               var that = this;
+               (function(ele){
+                that.startMove(ele,{left:left,top:top},function(){
+                     console.log('炸一炸,给好吃');
+                     // 让小烟花消失
+                     ele.remove();
+               })
+               })(newSmallFire);
+ 
+           } 
+        
+
+          }
+
+       
+
+        /*******运动方法******/
+       Fire.prototype.startMove=function(obj,ElenetArr,callback){
+           var times ='';
+                    // 1 清除定时器
+            clearInterval(times);
+            // 设置清除定时器的开关
+            var onOff = false;
+            // 2 设置定时器
+           times = setInterval(()=>{
+            // 3 遍历ElementArr,获取运动方向和临界值
+            for(var attr in ElenetArr){
+            // 4 获取元素的实时位置
+                // console.log(attr,'attr')
+                var tmpPos = parseInt(this.getPos(obj,attr));
+                // console.log(tmpPos,'tmppos');
+                // console.log(ElenetArr[attr],'Arr')
+            // 5 计算运动的步进值 speed
+            var speed = (ElenetArr[attr]-tmpPos)/10;
+            // 6 对speed进行取整
+                speed = speed>0 ? Math.ceil(speed) : Math.floor(speed)
+            // 7 判断元素下一次的位置是否到达临界值
+                if((tmpPos+speed)==ElenetArr[attr]){
+                // 到达将清除定时器的开关设置true
+                    onOff= true;
+                }
+                // 8 设置元素的位置
+                // obj.style.left
+                obj.style[attr]= tmpPos+speed+'px';
+
+                }
+            // 9 根据开关清除定时器
+            if(onOff){
+                clearInterval(times);
+                    // 10 callback穿递了调用,一定写在清除定时器的位置
+                if(callback){
+                        callback();
+                    }
+            }
+        
+            },30);
+       }
+        /******获取随机颜色方法****/
+        Fire.prototype.getColor = function(){
+              this.num1 = this.getRan(0,255);
+              this.num2  = this.getRan(0,255);
+              this.num3  = this.getRan(0,255);
+
+              return 'RGB('+this.num1+','+this.num2+','+this.num3+')'
+        }
+        /****随机数的方法*****/
+        Fire.prototype.getRan=function(min,max){
+             return Math.round(Math.random()*(max-min)+min);
+        }
+
+        /*****获取元素属性值*****/
+        Fire.prototype.getPos=function(obj,attr){
+           if(obj.currentStyle){  //IE低版本写法
+                return obj.currentStyle[attr]
+            }else{ // 主流写法
+                return getComputedStyle(obj)[attr]
+            }
+        }
+    </script>
+</body>
+</html>

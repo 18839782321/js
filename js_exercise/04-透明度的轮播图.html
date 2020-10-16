@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    #div1 {
+      width: 850px;
+      height: 500px;
+      margin: 50px auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #div1 ul li {
+      height: 500px;
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 0;
+      transition: opacity 1.5s;
+    }
+
+    #div1 ul li.ac {
+      z-index: 5;
+      opacity: 1;
+    }
+
+    #div1 ol {
+      position: absolute;
+      right: 10%;
+      bottom: 10px;
+      z-index: 6
+    }
+
+    #div1 ol li {
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      margin-left: 5px;
+      float: left;
+      line-height: 20px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    #div1 ol li.ac {
+      background: red;
+      color: #fff;
+    }
+
+    #div1>a {
+      text-decoration: none;
+      position: absolute;
+      top: 50%;
+      margin-top: -10px;
+      height: 40px;
+      line-height: 32px;
+      text-align: center;
+      width: 40px;
+      font-size: 40px;
+      vertical-align: middle;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 6;
+    }
+
+    #goPrev {
+      left: 0;
+    }
+
+    #goNext {
+      right: 0;
+    }
+
+    img {
+      width: 850px;
+      height: 500px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="div1">
+    <ul>
+      <li class="ac">
+        <a href="javascript:alert(0);">
+          <img src="../images/11.jpg" />
+        </a>
+      </li>
+      <li>
+        <a href="javascript:alert(1);">
+          <img src="../images/12.jpg" />
+        </a>
+      </li>
+      <li>
+        <a href="javascript:alert(2);">
+          <img src="../images/13.jpg" />
+        </a>
+      </li>
+      <li>
+        <a href="javascript:alert(3);">
+          <img src="../images/14.jpg" />
+        </a>
+      </li>
+      <li>
+        <a href="javascript:alert(4);">
+          <img src="../images/15.jpg" />
+        </a>
+      </li>
+    </ul>
+    <ol>
+      <li class="ac">1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+    </ol>
+    <a href="javascript:;" id="goPrev">&laquo;</a>
+    <a href="javascript:;" id="goNext">&raquo;</a>
+  </div>
+  <script>
+    var div = document.querySelector('#div1'),
+      imgs = div.querySelectorAll('ul li'),
+      btns = div.querySelectorAll('ol li'),
+      goPrev = document.querySelector('#goPrev'),
+      goNext = document.querySelector('#goNext')
+
+    // 准备:当前操作的图片和上一张图片
+    var index = 0;
+    var lastIndex = 0;// 上一张图片索引
+    // 1 给ol中的li绑定点击事件
+    for (let i = 0; i < btns.length; i++) {
+      //  1-1 保存li对应的索引
+      btns[i].key = i;
+      btns[i].onclick = function () {
+        // 将当前的索引赋值给lastIndex
+        lastIndex = index;
+        index = this.key;
+
+        console.log(lastIndex, index);
+        show()
+      }
+    }
+    /*******点击左边按钮实现切换*****/
+    goPrev.onclick = function () {
+
+      lastIndex = index;
+      index--;
+      //1第一张图片下标为0, 判断是否为第一张
+      if (index < 0) index = imgs.length - 1;
+      show();
+    }
+    /*******右边按钮的实现******/
+    goNext.onclick = function () {
+
+    }
+
+    // 设置隐藏上一张图片,显示当前的
+    function show() {
+      imgs[lastIndex].classList.remove('ac');
+      imgs[index].classList.add('ac');
+
+      // 设置按钮的选中
+      btns[lastIndex].classList.remove('ac');
+      btns[index].classList.add('ac');
+    }
+  </script>
+</body>
+
+</html>

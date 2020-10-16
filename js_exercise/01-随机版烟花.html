@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<style>
+  #container {
+    width: 80%;
+    height: 600px;
+    border: 1px red solid;
+    position: relative;
+    margin: 20px auto;
+    cursor: pointer;
+    background: black;
+  }
+
+  .fire {
+    background: red;
+    position: absolute;
+    /* 设置bottom时,top获取为最大值,减去鼠标点击位置 */
+    bottom: 0px;
+    width: 6px;
+    height: 6px;
+
+  }
+
+  .small-fire {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    border-radius: 50%;
+  }
+</style>
+
+<body>
+  <div id="container">
+
+  </div>
+  <script>
+    // 1 获取id="container",并且绑定click事件
+    let conObj = document.getElementById('container');
+    conObj.onclick = function (eve) {
+      // 2 获取鼠标点击的位置
+      var e = eve || window.event;
+      var pos = {
+        mouseX: e.offsetX,
+        mouseY: e.offsetY
+      }
+      new Fire(conObj, pos)
+    }
+
+
+
+    function Fire(conObj, pos) {
+      // 将两个变量转化为属性,大小烟花通用
+      this.conObj = conObj;
+      this.pos = pos;
+
+      // 1 创建div,并且追加class
+      var divObj = document.createElement('div');
+      divObj.className = 'fire';
+      // 2 随机背景颜色
+      divObj.style.background = this.getColor();
+      // 3 将鼠标点击的left值,给div
+      divObj.style.left = pos.mouseX + 'px';
+      // 4 追加到页面
+      this.conObj.appendChild(divObj);
+      // 5 动起来
+      var that = this;
+      this.startMove(divObj, { top: this.pos.mouseY }, function () {
+        //console.log('来来,一起动起来...');
+        // 让烟花消失
+        divObj.remove();
+        //console.log(this); // win
+
+        that.smallFire();
+      })
+
+    }
+    /********小烟花的产生************/
+    Fire.prototype.smallFire = function () {
+      //1 固定产生12个div
+      for (let i = 0; i < 12; i++) {
+        //2 创建div,追加class
+        var sFire = document.createElement('div');
+        sFire.className = 'small-fire ';
+        //3 随机背景颜色
+        sFire.style.background = this.getColor();
+        //4 设置初始的位置,鼠标点击的位置
+        sFire.style.left = this.pos.mouseX + 'px';
+        sFire.style.top = this.pos.mouseY + 'px';
+        // 5 追加到页面中
+        this.conObj.appendChild(sFire);
+        // 6 随机一个top和left终点值
+        var tmpL = this.random(0, this.conObj.clientWidth - sFire.offsetWidth);
+        var tmpT = this.random(0, this.conObj.clientHeight - sFire.offsetHeight);
+        // console.log(tmpL, tmpT);
+        // 7 动起来
+        // for是顺序执行,瞬间执行完毕,而定时器是,异步执行,速度比较慢,
+        //当运动到指定位置再清空sFire,此时sFire已经不是运动的那个div了
+        var that = this;
+        // 在匿名函数中,形成了局部作用域,将变量隔离起来
+        // 互相两次调用变量不会干扰
+        (function (ele) {
+          that.startMove(ele, { left: tmpL, top: tmpT }, function () {
+            console.log('这一动,出意外了');
+            ele.remove();
+          })
+        })(sFire);
+
+
+      }
+    }
+
+
+
+
+    // 准备工作:封装运动的方法,随机数,随机颜色,获取指定属性值的方法
+    Fire.prototype.startMove = function (eleObj, obj, cb) {
+      clearInterval(times);
+      //清空定时器的开关
+      var onOff = false;
+      var that = this;
+      // 1 设置定时器
+      var times = setInterval(function () {
+        // 2 遍历运动的方向和目标
+        for (var attr in obj) {
+          // console.log(attr, obj[attr]);
+          // 3 获取元素的实时位置.方便计算speed
+          var pos = parseInt(that.getPos(eleObj, attr));
+          // console.log('pos', pos);
+          // 4 计算speed值,并且取整
+          var speed = (obj[attr] - pos) / 10;
+          speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+          // console.log('speed', speed);
+          // 5 临界值的判断.到达临界值给开关true,避免直接清空定时器,
+          //影响另一个属性运动
+          if (pos + speed == obj[attr])
+            onOff = true;
+          // 6 让元素动起来
+          eleObj.style[attr] = pos + speed + 'px';
+        }
+
+
+        if (onOff) {
+          clearInterval(times);
+          // 判断是否有回调函数,存在且调用
+          //console.log(222);
+          if (cb) cb();
+        }
+
+      }, 30);
+    }
+
+    Fire.prototype.getPos = function (ele, attr) {
+      if (ele.currentStyle)
+        return ele.currentStyle[attr]
+      else
+        return getComputedStyle(ele)[attr]
+    }
+
+
+    // 随机数的
+    Fire.prototype.random = function (min, max) {
+      return Math.round(Math.random() * (max - min) + min)
+    }
+
+    // 随机颜色
+    Fire.prototype.getColor = function () {
+      var c1 = this.random(0, 255);
+      var c2 = this.random(0, 255);
+      var c3 = this.random(0, 255);
+
+      return 'RGB(' + c1 + ',' + c2 + ',' + c3 + ')';
+    }
+
+
+
+
+    for (var j = 0; j < 10; j++) {
+      fn(j)
+    }
+    function fn(num) {
+      console.log(num);
+
+    }
+  </script>
+</body>
+
+</html>
