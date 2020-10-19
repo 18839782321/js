@@ -167,7 +167,7 @@
         lastIndex = index;
         index++;
         console.log(index, lastIndex, imgs.length)
-        //1第一张图片下标为0, 判断是否为第一张
+        // 判断是否为最后一张，如果是最后一张，点击右边按钮，回到第一张，即index=0
         if (index > (imgs.length - 1)) index = 0;
         show();
     }
