@@ -32,7 +32,7 @@
       <file leaf-file-name="02-圆周版烟花.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js_exercise/02-圆周版烟花.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="410">
               <caret line="161" column="51" selection-start-line="161" selection-start-column="47" selection-end-line="161" selection-end-column="51" />
             </state>
           </provider>
@@ -58,8 +58,11 @@
       <file leaf-file-name="04-透明度的轮播图.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js_exercise/04-透明度的轮播图.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="170" column="36" selection-start-line="170" selection-start-column="36" selection-end-line="170" selection-end-column="36" />
+            <state relative-caret-position="534">
+              <caret line="176" column="52" selection-start-line="176" selection-start-column="52" selection-end-line="176" selection-end-column="52" />
+              <folding>
+                <element signature="n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -76,8 +79,8 @@
       <file leaf-file-name="03-轮播图.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js_exercise/03-轮播图.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="898">
-              <caret line="263" column="8" lean-forward="true" selection-start-line="263" selection-start-column="8" selection-end-line="263" selection-end-column="8" />
+            <state relative-caret-position="680">
+              <caret line="138" column="42" selection-start-line="138" selection-start-column="26" selection-end-line="138" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -187,7 +190,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -261,6 +264,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3564">
           <caret line="162" column="13" lean-forward="true" selection-start-line="162" selection-start-column="13" selection-end-line="162" selection-end-column="13" />
+          <folding>
+            <element signature="n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -282,13 +288,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js_exercise/02-圆周版烟花.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="161" column="51" selection-start-line="161" selection-start-column="47" selection-end-line="161" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js_exercise/01-随机版烟花.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -299,13 +298,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js_exercise/03-轮播图.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="898">
-          <caret line="263" column="8" lean-forward="true" selection-start-line="263" selection-start-column="8" selection-end-line="263" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/move.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1064">
@@ -313,10 +305,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js_exercise/02-圆周版烟花.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="161" column="51" selection-start-line="161" selection-start-column="47" selection-end-line="161" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js_exercise/03-轮播图.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="138" column="42" selection-start-line="138" selection-start-column="26" selection-end-line="138" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js_exercise/04-透明度的轮播图.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="170" column="36" selection-start-line="170" selection-start-column="36" selection-end-line="170" selection-end-column="36" />
+        <state relative-caret-position="534">
+          <caret line="176" column="52" selection-start-line="176" selection-start-column="52" selection-end-line="176" selection-end-column="52" />
+          <folding>
+            <element signature="n#ul#0;n#div#0;n#body#0;n#html#0;n#!!top" />
+          </folding>
         </state>
       </provider>
     </entry>

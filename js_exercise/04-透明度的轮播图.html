@@ -136,6 +136,7 @@
         btns = div.querySelectorAll('ol li'),
         goPrev = document.querySelector('#goPrev'),
         goNext = document.querySelector('#goNext')
+        // rightObj = goNext.lastElementChild
 
     // 准备:当前操作的图片和上一张图片
     var index = 0;
@@ -171,6 +172,16 @@
         if (index > (imgs.length - 1)) index = 0;
         show();
     }
+
+    /*******定时器实现轮播********/
+    // 给下一张按钮绑定点击事件，并设置定时器，使其每隔一段时间执行一次点击函数，实现自动轮播效果
+    function bo() {
+      timer = setInterval(function () {
+        // 直接调用事件含函数
+        goNext.onclick();
+      }, 2000);
+    }
+    bo()
 
     // 设置隐藏上一张图片,显示当前的
     function show() {
